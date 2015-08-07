@@ -1,0 +1,99 @@
+---
+title: Writing Templates
+template: article
+prev:
+  link: writing-content
+  label: Writing Content
+next:
+  link: tips-and-tricks
+  label: Tips and Tricks
+---
+
+# Writing Templates
+
+## Hogan &amp; Mustache
+
+Jupiter uses the [Hogan](http://twitter.github.io/hogan.js/) compiler for the [Mustache](https://mustache.github.io/) templating language. This allows the metadata contained in a file's FrontMatter to be used for variables, sections, lambdas...etc
+
+For example, to include a page's heading, you could write:
+
+```
+<h1>{{ heading }}</h1>
+```
+
+Or to iterate over an array of links:
+
+```
+{{# links }}
+  <a href='{{ href }}'>{{ text }}</a>
+{{/ links }}
+```
+
+## jupiter.js
+
+To save on http requests, templates are in the `jupiter.js` file itself, in the `templates` property of the `Jupiter` object in the lower half of the file.
+
+To avoid repetitive string concatenations/continuations, each template is placed in a multiline comment using [Multiline](https://github.com/sindresorhus/multiline).
+
+Here is an example of what a `jupiter.js` file might look like:
+
+[//]: # (<script type='text/ignore-this'>)
+```
+/* ... Some minified dependencies ... */
+
+var Jupiter = {
+  /* ... Some parsing and intializing code ... */
+
+  templates: {
+
+    layout: function() {/*
+      <head>
+        <title>My Site | {{ title }}</title>
+        <link rel='stylesheet' type='text/css' href='/app.css' />
+      </head>
+      <body>
+        <main role='main'>
+
+          {{{ yield }}}
+
+        </main>
+      </body>
+    */},
+
+    post: function() {/*
+      <header>
+        <h1>{{ heading }}</h1>
+        <span class='author'>{{ author }}</span>
+      </header>
+
+      {{{ content }}}
+
+    */}
+  }
+}
+```
+[//]: # (</script>)
+
+## Template
+
+Every markdown file needs to specify which template to use by setting the `template` variable in it's FrontMatter. The compiled markdown will then be available to the template via the `content` variable.
+
+## Layout
+
+As it's common to use the same basic layout for all the pages on a site, Jupiter assumes the presence of a `layout` template, which will be wrapped around all page templates. The rendered page template is available to the layout via the `yield` variable.
+
+## Escaping
+
+As both the compiled markdown in `content` and the rendered template in `yield` will contain HTML elements, they need to be inserted into the template using the unescaped mustache syntax
+
+Either:
+
+```
+{{{ content }}}
+```
+
+Or:
+
+<pre><code>{{& content }}</code></pre>
+
+<script src='jupiter.js'></script>

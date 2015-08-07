@@ -1,0 +1,47 @@
+---
+title: Tips and Tricks
+template: article
+prev:
+  link: writing-templates
+  label: Writing Templates
+---
+# Tips and Tricks
+
+## Degrading Gracefully
+
+For browsers that do not run javascript, the markdown file will be displayed with the whitespace removed maing it difficult to read. If you'd like it maintain the original whitespace you can open a `pre` tag at the begining of the file like so:
+
+```
+<pre>
+
+---
+template: article
+title: My Funky Article
+---
+
+This is some Markdown......
+```
+
+## Hiding from the Browser
+
+Sometimes when writing code examples, the content will be read by the browser before Jupiter parses it and elicit unwanted behaviour. To hide text from the browser, enclose it in the following:
+
+```
+[//]: # (<script type='text/ignore-this'>)
+
+... Some dangerous text ...
+
+[//]: # (</script>)
+```
+
+This works because any script type that a browser doesn't recognise its contents is ignored. Then when being parsed as markdown the `script` tags are treated as comments and ignored.
+
+However, if you're code examples involve writing `script` tags, be wary that a closing `script` tag will close the surrounding tag and the subsquent text will no-longer be hidden.
+
+As such, in some circumstances it may be better to escape the code:
+
+```
+<code>&lt;script src='/do-not-run-me.js'&gt;&lt;/script&gt;</code>
+```
+
+<script src='jupiter.js'></script>

@@ -1,0 +1,43 @@
+---
+title: Writing Content
+template: article
+prev:
+  link: getting-started
+  label: Getting Started
+next:
+  link: writing-templates
+  label: Writing Templates
+---
+# Writing Content
+
+## Markdown with YAML FrontMatter
+
+With Jupiter, content is written in [Markdown](http://agea.github.io/tutorial.md/) and metadata is written in [YAML](http://yaml.org/). The latter being placed at the top of the file between two `---` lines, this is known as the FrontMatter. For example:
+
+```
+---
+template: article
+title: My Funky Article
+---
+
+This is some Markdown, specifically a paragraph of text.
+
+* This is a list.
+* Unordered list to be precise.
+
+If you need help, try this [Markdown tutorial](http://agea.github.io/tutorial.md/).
+```
+
+This would be used to generate a page with the `article` template. The `title` variable, and any other metadata in the FrontMatter, would then be available to the template that generates the page.
+
+## File Type
+
+In order for the file to be read by the browser, they need to use the `.html` file extension, rather the `.md` file extension that a markdown file typically has.
+
+## Including Jupiter
+
+At the end of each content file, the Jupiter javascipt file must be included:
+
+<pre><code>&lt;script src='/jupiter.js'&gt;&lt;/script&gt;</code></pre>
+
+<script src='jupiter.js'></script>
